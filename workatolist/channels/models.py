@@ -11,3 +11,12 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class Channel(BaseModel):
+    """Channels model for marketplaces."""
+
+    name = models.CharField('Name', max_length=30, unique=True)
+
+    def __str__(self):
+        return self.name
