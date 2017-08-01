@@ -25,6 +25,11 @@ class ChannelTestCase(TestCase):
         with self.assertRaises(IntegrityError):
             create_channel('Unique')
 
+    def test__reference_id(self):
+        """Reference ID must be the name slugified"""
+        channel = create_channel('Channel Name')
+        self.assertEqual(channel.reference_id, 'channel-name')
+
 
 class CategoryTestCase(TestCase):
     """Category tests."""
@@ -73,3 +78,24 @@ class CategoryTestCase(TestCase):
         root = create_category('Root Category', channel, parent=None)
         leaf = create_category('Leaf Category', channel, parent=root)
         self.assertTrue(leaf.is_leaf_node())
+
+    def test__reference_id_for_root_category(self):
+        """For root categories, reference ID must be the channel and category names slugigieds"""
+        channel = create_channel('Channel Sample')
+        category = create_category('Root Category', channel, parent=None)
+        self.assertEqual(category.reference_id, 'channel-sample-root-category')
+
+    def test__reference_id_for_child_category(self):
+        """For child categories, reference ID must be channel, category parent and category names slugigieds"""
+        channel = create_channel('Channel Sample')
+        root = create_category('Root Category', channel, parent=None)
+        child = create_category('Child Category', channel, parent=root)
+        self.assertEqual(child.reference_id, 'channel-sample-root-category-child-category')
+
+    def test__reference_id_must_be_unique(self):
+        """Reference ID must be unique"""
+        channel1 = create_channel('First Second')
+        create_category('Third', channel1, parent=None)
+        channel2 = create_channel('First')
+        with self.assertRaises(IntegrityError):
+            create_category('Second Third', channel2, parent=None)
