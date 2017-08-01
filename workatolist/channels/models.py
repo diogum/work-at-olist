@@ -32,6 +32,7 @@ class Channel(BaseModel):
     name = models.CharField(_('Name'), max_length=30, unique=True)
 
     class Meta:
+        ordering = ['name']
         verbose_name = _('Channel')
         verbose_name_plural = _('Channels')
 
@@ -52,6 +53,9 @@ class Category(MPTTModel, BaseModel):
     class Meta:
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')
+
+    class MPTTMeta:
+        order_insertion_by = ['channel', 'name']
 
     def __str__(self):
         return self.name
