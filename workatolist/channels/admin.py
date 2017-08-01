@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+from mptt.admin import MPTTModelAdmin
+
 from .models import Category, Channel
 
 
@@ -7,7 +9,7 @@ class ChannelAdmin(admin.ModelAdmin):
     list_display = ('name', 'reference_id',)
 
 
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(MPTTModelAdmin):
     list_display = ('name', 'reference_id', 'channel', 'parent',)
 
 
