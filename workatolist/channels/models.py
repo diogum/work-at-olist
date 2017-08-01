@@ -1,7 +1,9 @@
 from uuid import uuid4
+
 from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
+
 from mptt.models import MPTTModel, TreeForeignKey
 
 

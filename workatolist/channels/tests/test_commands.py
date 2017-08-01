@@ -1,5 +1,6 @@
 from tempfile import NamedTemporaryFile
 from unittest.mock import patch
+
 from django.test import TestCase
 from django.core.management import call_command
 from django.core.management.base import CommandError
