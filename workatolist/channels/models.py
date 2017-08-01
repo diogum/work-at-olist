@@ -31,6 +31,10 @@ class Channel(BaseModel):
 
     name = models.CharField(_('Name'), max_length=30, unique=True)
 
+    class Meta:
+        verbose_name = _('Channel')
+        verbose_name_plural = _('Channels')
+
     def __str__(self):
         return self.name
 
@@ -44,6 +48,10 @@ class Category(MPTTModel, BaseModel):
     name = models.CharField(_('Name'), max_length=30)
     channel = models.ForeignKey(Channel, related_name='categories', verbose_name=_('Channel'))
     parent = TreeForeignKey('self', related_name='children', null=True, blank=True, db_index=True)
+
+    class Meta:
+        verbose_name = _('Category')
+        verbose_name_plural = _('Categories')
 
     def __str__(self):
         return self.name
