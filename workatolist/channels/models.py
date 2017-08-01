@@ -1,6 +1,7 @@
 from uuid import uuid4
 from django.db import models
 from django.utils.text import slugify
+from django.utils.translation import ugettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 
 
@@ -8,9 +9,9 @@ class BaseModel(models.Model):
     """Abstract base class that provides primary key, reference id, creation and modification timestamp."""
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    reference_id = models.SlugField('Reference ID', max_length=255, unique=True)
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
+    reference_id = models.SlugField(_('Reference ID'), max_length=255, unique=True)
+    created = models.DateTimeField(_('Created'), auto_now_add=True)
+    modified = models.DateTimeField(_('Modified'), auto_now=True)
 
     class Meta:
         abstract = True
@@ -26,7 +27,7 @@ class BaseModel(models.Model):
 class Channel(BaseModel):
     """Channels model for marketplaces."""
 
-    name = models.CharField('Name', max_length=30, unique=True)
+    name = models.CharField(_('Name'), max_length=30, unique=True)
 
     def __str__(self):
         return self.name
@@ -38,8 +39,8 @@ class Channel(BaseModel):
 class Category(MPTTModel, BaseModel):
     """Hierarchical model for categories."""
 
-    name = models.CharField('Name', max_length=30)
-    channel = models.ForeignKey(Channel, related_name='categories')
+    name = models.CharField(_('Name'), max_length=30)
+    channel = models.ForeignKey(Channel, related_name='categories', verbose_name=_('Channel'))
     parent = TreeForeignKey('self', related_name='children', null=True, blank=True, db_index=True)
 
     def __str__(self):
