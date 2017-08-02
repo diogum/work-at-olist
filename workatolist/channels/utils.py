@@ -22,3 +22,13 @@ def import_categories(channel_name, categories):
         parent = None
         for category in item.split('/'):
             parent, _ = Category.objects.get_or_create(channel=channel, name=category.strip(), parent=parent)
+
+
+def create_channel(name):
+    """Helper for create a channel by name"""
+    return Channel.objects.create(name=name)
+
+
+def create_category_in_channel(name, channel, parent=None):
+    """Helper to hierarchically create category"""
+    return Category.objects.create(name=name, channel=channel, parent=parent)

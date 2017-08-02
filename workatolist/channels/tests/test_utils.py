@@ -1,8 +1,8 @@
 from django.test import TestCase
 from django.core.exceptions import ObjectDoesNotExist
 
-from ..models import Channel
-from ..utils import import_categories
+from ..models import Channel, Category
+from ..utils import import_categories, create_channel, create_category_in_channel
 
 
 class ImportcategoriesTestCase(TestCase):
@@ -43,3 +43,31 @@ class ImportcategoriesTestCase(TestCase):
         self.assertTrue(categories[0].is_root_node)
         self.assertTrue(categories[1].is_child_node)
         self.assertTrue(categories[2].is_leaf_node)
+
+
+class CreateChannelTestCase(TestCase):
+    def test__create_channel(self):
+        """Must create the channel"""
+        expected_channel = create_channel('Created Channel')
+        channel = Channel.objects.get(name='Created Channel')
+
+        self.assertEqual(expected_channel.id, channel.id)
+
+
+class CreateCategoryTestCase(TestCase):
+    def test__create_category_in_channel(self):
+        """Must create the category in the given channel with the specified name"""
+        channel = Channel.objects.create(name='Created Channel')
+        expected_category = create_category_in_channel('Created Category', channel)
+        category = channel.categories.get(name='Created Category')
+
+        self.assertEqual(expected_category.id, category.id)
+
+    def test__create_category_with_parent(self):
+        """The category must have parent"""
+        channel = Channel.objects.create(name='Created Channel')
+        parent_category = create_category_in_channel('Parent Category', channel, parent=None)
+        create_category_in_channel('Child Category', channel, parent=parent_category)
+        child_category = Category.objects.get(name='Child Category')
+
+        self.assertIsNotNone(child_category.parent)
