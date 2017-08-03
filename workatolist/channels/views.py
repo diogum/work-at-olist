@@ -4,16 +4,16 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 
 from . import serializers
-from .models import Category
+from .models import Channel, Category
 
 
 class CategoryViewSet(viewsets.ViewSet):
     """
     list:
-    Return a simple hierarchical tree of all root categories.
+    Returns a simple hierarchical tree of all root categories.
 
     retrieve:
-    Return a hierarchical tree of root categories from the given reference_id.
+    Returns a hierarchical tree of root categories from the given reference_id.
 
     """
     lookup_field = 'reference_id'
@@ -29,3 +29,18 @@ class CategoryViewSet(viewsets.ViewSet):
         categories = get_object_or_404(queryset, reference_id=reference_id)
         serializer = serializers.CategoryDetailSerializer(categories, context={'request': request})
         return Response(serializer.data)
+
+
+class ChannelViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    list:
+    Returns a simple list of channel.
+
+    retrieve:
+    Returns details of the given channel.
+
+    """
+    lookup_field = 'reference_id'
+    lookup_url_kwarg = 'reference_id'
+    queryset = Channel.objects.all()
+    serializer_class = serializers.ChannelSerializer

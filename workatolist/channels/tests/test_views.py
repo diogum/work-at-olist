@@ -40,3 +40,37 @@ class CategoryViewTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 3)
+
+
+class ChannelViewTestCase(APITestCase):
+    """ChannelView tests"""
+
+    def test__list(self):
+        """Test the list endpoint"""
+        create_channel('Channel A')
+        create_channel('Channel B')
+
+        url = reverse('api:channel-list')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIsInstance(response.data, list)
+        self.assertEqual(len(response.data), 2)
+
+    def test__detail_not_found(self):
+        """Must return not found if the requested resource does not exists"""
+        url = reverse('api:channel-detail', kwargs={'reference_id': 'channel'})
+        response = self.client.get(url)
+        expected_data = {'detail': 'Not found.'}
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(response.data, expected_data)
+
+    def test__detail_found(self):
+        """Must return the requested resource"""
+        create_channel('Channel')
+        url = reverse('api:channel-detail', kwargs={'reference_id': 'channel'})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 2)
