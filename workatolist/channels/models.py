@@ -19,7 +19,7 @@ class BaseModel(models.Model):
         abstract = True
 
     def generate_reference_id(self):
-        raise NotImplementedError
+        """Abstract method to generate reference id"""
 
     def save(self, *args, **kwargs):
         self.reference_id = self.generate_reference_id()
