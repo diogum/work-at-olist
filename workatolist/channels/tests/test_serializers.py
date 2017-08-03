@@ -24,6 +24,20 @@ class CategoryListSerializerTestCase(TestCase):
 
         self.assertEqual(serializer.data, [])
 
+    def test__contains_expected_fields(self):
+        """Item from the list must have the expected fields"""
+        channel = create_channel('Channel')
+        create_category_in_channel('Category', channel)
+
+        categories = Category.objects.all()
+        serializer = serializers.CategoryListSerializer(instance=categories, context={'request': None}, many=True)
+        keys = serializer.data[0].keys()
+
+        self.assertEqual(len(keys), 3)
+        self.assertIn('reference_id', keys)
+        self.assertIn('name', keys)
+        self.assertIn('subcategories', keys)
+
 
 class CategoryDetailSerializerTestCase(TestCase):
     def test__contains_expected_fields(self):
