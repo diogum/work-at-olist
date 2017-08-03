@@ -12,7 +12,7 @@ class CategorySerializerTestCase(TestCase):
         create_category_in_channel('Category A', channel)
         create_category_in_channel('Category B', channel)
         categories = Category.objects.all()
-        serializer = CategorySerializer(instance=categories, many=True)
+        serializer = CategorySerializer(instance=categories, context={'request': None}, many=True)
 
         self.assertIsInstance(serializer.data, list)
         self.assertEqual(len(serializer.data), 2)
@@ -20,7 +20,7 @@ class CategorySerializerTestCase(TestCase):
     def test__empty_list(self):
         """Test empty category list"""
         categories = Category.objects.all()
-        serializer = CategorySerializer(instance=categories, many=True)
+        serializer = CategorySerializer(instance=categories, context={'request': None}, many=True)
 
         self.assertEqual(serializer.data, [])
 
@@ -28,10 +28,11 @@ class CategorySerializerTestCase(TestCase):
         """Test for expected fields"""
         channel = create_channel('Channel')
         category = create_category_in_channel('Category', channel)
-        serializer = CategorySerializer(instance=category)
+        serializer = CategorySerializer(instance=category, context={'request': None})
         keys = serializer.data.keys()
 
-        self.assertEqual(len(keys), 3)
+        self.assertEqual(len(keys), 4)
+        self.assertIn('url', keys)
         self.assertIn('reference_id', keys)
         self.assertIn('name', keys)
         self.assertIn('subcategories', keys)

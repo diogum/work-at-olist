@@ -6,8 +6,12 @@ from .models import Category
 
 class CategorySerializer(serializers.ModelSerializer):
     """Category model serializer"""
+    url = serializers.HyperlinkedIdentityField(
+        view_name='api:category-detail',
+        lookup_field='reference_id'
+    )
     subcategories = serializers.ListSerializer(source='children', child=RecursiveField())
 
     class Meta:
         model = Category
-        fields = ('reference_id', 'name', 'subcategories',)
+        fields = ('url', 'reference_id', 'name', 'subcategories',)
