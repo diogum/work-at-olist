@@ -11,11 +11,16 @@ class CategoryListSerializer(serializers.ModelSerializer):
         view_name='api:categories-detail',
         lookup_field='reference_id'
     )
+    channel = serializers.HyperlinkedRelatedField(
+        view_name='api:channel-detail',
+        lookup_field='reference_id',
+        read_only=True
+    )
     subcategories = serializers.ListSerializer(source='children', child=RecursiveField())
 
     class Meta:
         model = Category
-        fields = ('name', 'url', 'reference_id', 'subcategories',)
+        fields = ('name', 'url', 'reference_id', 'channel', 'subcategories',)
 
 
 class CategoryDetailSerializer(serializers.ModelSerializer):
@@ -25,11 +30,21 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
         view_name='api:categories-detail',
         lookup_field='reference_id'
     )
+    parent = serializers.HyperlinkedRelatedField(
+        view_name='api:categories-detail',
+        lookup_field='reference_id',
+        read_only=True
+    )
+    channel = serializers.HyperlinkedRelatedField(
+        view_name='api:channel-detail',
+        lookup_field='reference_id',
+        read_only=True
+    )
     subcategories = serializers.ListSerializer(source='children', child=RecursiveField())
 
     class Meta:
         model = Category
-        fields = ('name', 'url', 'reference_id', 'subcategories',)
+        fields = ('name', 'url', 'reference_id', 'channel', 'parent', 'subcategories',)
 
 
 class ChannelSerializer(serializers.ModelSerializer):

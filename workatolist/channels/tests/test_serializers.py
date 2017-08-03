@@ -33,10 +33,11 @@ class CategoryListSerializerTestCase(TestCase):
         serializer = serializers.CategoryListSerializer(instance=categories, context={'request': None}, many=True)
         keys = serializer.data[0].keys()
 
-        self.assertEqual(len(keys), 4)
+        self.assertEqual(len(keys), 5)
         self.assertIn('name', keys)
         self.assertIn('url', keys)
         self.assertIn('reference_id', keys)
+        self.assertIn('channel', keys)
         self.assertIn('subcategories', keys)
 
 
@@ -48,10 +49,12 @@ class CategoryDetailSerializerTestCase(TestCase):
         serializer = serializers.CategoryDetailSerializer(instance=category, context={'request': None})
         keys = serializer.data.keys()
 
-        self.assertEqual(len(keys), 4)
+        self.assertEqual(len(keys), 6)
         self.assertIn('name', keys)
         self.assertIn('url', keys)
         self.assertIn('reference_id', keys)
+        self.assertIn('channel', keys)
+        self.assertIn('parent', keys)
         self.assertIn('subcategories', keys)
 
 
