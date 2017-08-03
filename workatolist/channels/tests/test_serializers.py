@@ -31,5 +31,7 @@ class CategorySerializerTestCase(TestCase):
         serializer = CategorySerializer(instance=category)
         keys = serializer.data.keys()
 
+        self.assertEqual(len(keys), 3)
         self.assertIn('reference_id', keys)
         self.assertIn('name', keys)
+        self.assertIn('subcategories', keys)
