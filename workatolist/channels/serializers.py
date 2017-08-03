@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework_recursive.fields import RecursiveField
 
-from .models import Category
+from .models import Channel, Category
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -20,3 +20,15 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('url', 'reference_id', 'name', 'parent', 'subcategories',)
+
+
+class ChannelSerializer(serializers.ModelSerializer):
+    """Channel model serializer"""
+    url = serializers.HyperlinkedIdentityField(
+        view_name='api:channel-detail',
+        lookup_field='reference_id'
+    )
+
+    class Meta:
+        model = Channel
+        fields = ('url', 'reference_id', 'name')

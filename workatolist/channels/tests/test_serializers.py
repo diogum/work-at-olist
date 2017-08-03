@@ -1,8 +1,8 @@
 from django.test import TestCase
 
-from ..serializers import CategorySerializer
+from ..serializers import CategorySerializer, ChannelSerializer
 from ..utils import create_channel, create_category_in_channel
-from ..models import Category
+from ..models import Channel, Category
 
 
 class CategorySerializerTestCase(TestCase):
@@ -37,3 +37,33 @@ class CategorySerializerTestCase(TestCase):
         self.assertIn('name', keys)
         self.assertIn('parent', keys)
         self.assertIn('subcategories', keys)
+
+
+class ChannelSerializerTestCase(TestCase):
+    def test__channel_list(self):
+        """Must be a list of items"""
+        create_channel('Channel A')
+        create_channel('Channel B')
+        channels = Channel.objects.all()
+        serializer = ChannelSerializer(instance=channels, context={'request': None}, many=True)
+
+        self.assertIsInstance(serializer.data, list)
+        self.assertEqual(len(serializer.data), 2)
+
+    def test__empty_list(self):
+        """Test empty channel list"""
+        channels = Channel.objects.all()
+        serializer = ChannelSerializer(instance=channels, context={'request': None}, many=True)
+
+        self.assertEqual(serializer.data, [])
+
+    def test__contains_expected_fields(self):
+        """Test for expected fields"""
+        channel = create_channel('Channel')
+        serializer = ChannelSerializer(instance=channel, context={'request': None})
+        keys = serializer.data.keys()
+
+        self.assertEqual(len(keys), 3)
+        self.assertIn('url', keys)
+        self.assertIn('reference_id', keys)
+        self.assertIn('name', keys)
