@@ -31,11 +31,9 @@ class CategorySerializerTestCase(TestCase):
         serializer = CategorySerializer(instance=category, context={'request': None})
         keys = serializer.data.keys()
 
-        self.assertEqual(len(keys), 5)
-        self.assertIn('url', keys)
+        self.assertEqual(len(keys), 3)
         self.assertIn('reference_id', keys)
         self.assertIn('name', keys)
-        self.assertIn('parent', keys)
         self.assertIn('subcategories', keys)
 
 
@@ -63,7 +61,6 @@ class ChannelSerializerTestCase(TestCase):
         serializer = ChannelSerializer(instance=channel, context={'request': None})
         keys = serializer.data.keys()
 
-        self.assertEqual(len(keys), 3)
-        self.assertIn('url', keys)
+        self.assertEqual(len(keys), 2)
         self.assertIn('reference_id', keys)
         self.assertIn('name', keys)
