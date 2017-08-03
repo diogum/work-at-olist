@@ -28,6 +28,7 @@ INSTALLED_APPS = [
 
     'mptt',
     'rest_framework',
+    'rest_framework_recursive',
 
     'channels',
 ]

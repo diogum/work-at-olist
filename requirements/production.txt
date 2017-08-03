@@ -4,4 +4,5 @@ psycopg2==2.7.3
 prettyconf==1.2.3
 dj-database-url==0.4.2
 djangorestframework==3.6.3
+django-rest-framework-recursive==0.1.2
 django-mptt==0.8.7
