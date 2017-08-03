@@ -11,7 +11,12 @@ class CategorySerializer(serializers.ModelSerializer):
         lookup_field='reference_id'
     )
     subcategories = serializers.ListSerializer(source='children', child=RecursiveField())
+    parent = serializers.HyperlinkedRelatedField(
+        view_name='api:category-detail',
+        lookup_field='reference_id',
+        read_only=True
+    )
 
     class Meta:
         model = Category
-        fields = ('url', 'reference_id', 'name', 'subcategories',)
+        fields = ('url', 'reference_id', 'name', 'parent', 'subcategories',)
