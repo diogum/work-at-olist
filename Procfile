@@ -1,0 +1,1 @@
+web: gunicorn --pythonpath workatolist workatolist.wsgi --log-file -
