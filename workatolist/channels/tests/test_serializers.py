@@ -76,6 +76,8 @@ class ChannelListSerializerTestCase(TestCase):
 
         self.assertEqual(serializer.data, [])
 
+
+class ChannelDetailSerializerTestCase(TestCase):
     def test__contains_expected_fields(self):
         """Test for expected fields"""
         channel = create_channel('Channel')
