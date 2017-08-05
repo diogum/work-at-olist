@@ -67,7 +67,13 @@ class ChannelDetailSerializer(serializers.ModelSerializer):
         view_name='api:channels-detail',
         lookup_field='reference_id'
     )
+    categories = serializers.SerializerMethodField()
+
+    def get_categories(self, obj):
+        root_categories = obj.categories.filter(parent=None)
+        serializer = CategoryListSerializer(root_categories, context={'request': self.context['request']}, many=True)
+        return serializer.data
 
     class Meta:
         model = Channel
-        fields = ('name', 'url', 'reference_id',)
+        fields = ('name', 'url', 'reference_id', 'categories',)

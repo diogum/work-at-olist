@@ -73,4 +73,15 @@ class ChannelViewTestCase(APITestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 3)
+        self.assertEqual(len(response.data), 4)
+
+    def test__detail_categories(self):
+        """Categories in channel must be the same as category list"""
+        channel = create_channel('Channel')
+        create_category_in_channel('Category', channel=channel)
+        category_url = reverse('api:categories-list')
+        category_response = self.client.get(category_url)
+        channel_url = reverse('api:channels-detail', kwargs={'reference_id': 'channel'})
+        channel_response = self.client.get(channel_url)
+
+        self.assertDictEqual(channel_response.data['categories'][0], category_response.data[0])

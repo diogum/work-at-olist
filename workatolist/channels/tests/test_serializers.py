@@ -81,10 +81,11 @@ class ChannelDetailSerializerTestCase(TestCase):
     def test__contains_expected_fields(self):
         """Test for expected fields"""
         channel = create_channel('Channel')
-        serializer = serializers.ChannelListSerializer(instance=channel, context={'request': None})
+        serializer = serializers.ChannelDetailSerializer(instance=channel, context={'request': None})
         keys = serializer.data.keys()
 
-        self.assertEqual(len(keys), 3)
+        self.assertEqual(len(keys), 4)
         self.assertIn('name', keys)
         self.assertIn('url', keys)
         self.assertIn('reference_id', keys)
+        self.assertIn('categories', keys)
