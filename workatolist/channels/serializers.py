@@ -48,7 +48,7 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
 
 
 class ChannelListSerializer(serializers.ModelSerializer):
-    """Channel model serializer"""
+    """Channel list model serializer"""
 
     url = serializers.HyperlinkedIdentityField(
         view_name='api:channels-detail',
@@ -61,7 +61,7 @@ class ChannelListSerializer(serializers.ModelSerializer):
 
 
 class ChannelDetailSerializer(serializers.ModelSerializer):
-    """Channel model serializer"""
+    """Channel detail model serializer"""
 
     url = serializers.HyperlinkedIdentityField(
         view_name='api:channels-detail',
