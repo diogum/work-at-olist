@@ -12,7 +12,7 @@ class CategoryListSerializer(serializers.ModelSerializer):
         lookup_field='reference_id'
     )
     channel = serializers.HyperlinkedRelatedField(
-        view_name='api:channel-detail',
+        view_name='api:channels-detail',
         lookup_field='reference_id',
         read_only=True
     )
@@ -36,7 +36,7 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
         read_only=True
     )
     channel = serializers.HyperlinkedRelatedField(
-        view_name='api:channel-detail',
+        view_name='api:channels-detail',
         lookup_field='reference_id',
         read_only=True
     )
@@ -47,11 +47,24 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
         fields = ('name', 'url', 'reference_id', 'channel', 'parent', 'subcategories',)
 
 
-class ChannelSerializer(serializers.ModelSerializer):
+class ChannelListSerializer(serializers.ModelSerializer):
     """Channel model serializer"""
 
     url = serializers.HyperlinkedIdentityField(
-        view_name='api:channel-detail',
+        view_name='api:channels-detail',
+        lookup_field='reference_id'
+    )
+
+    class Meta:
+        model = Channel
+        fields = ('name', 'url', 'reference_id',)
+
+
+class ChannelDetailSerializer(serializers.ModelSerializer):
+    """Channel model serializer"""
+
+    url = serializers.HyperlinkedIdentityField(
+        view_name='api:channels-detail',
         lookup_field='reference_id'
     )
 

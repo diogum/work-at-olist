@@ -31,7 +31,7 @@ class CategoryViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
 
-class ChannelViewSet(viewsets.ReadOnlyModelViewSet):
+class ChannelViewSet(viewsets.ViewSet):
     """
     list:
     Returns a simple list of channel.
@@ -42,5 +42,14 @@ class ChannelViewSet(viewsets.ReadOnlyModelViewSet):
     """
     lookup_field = 'reference_id'
     lookup_url_kwarg = 'reference_id'
-    queryset = Channel.objects.all()
-    serializer_class = serializers.ChannelSerializer
+
+    def list(self, request):
+        queryset = Channel.objects.all()
+        serializer = serializers.ChannelListSerializer(queryset, context={'request': request}, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, reference_id=None):
+        queryset = Channel.objects.all()
+        channel = get_object_or_404(queryset, reference_id=reference_id)
+        serializer = serializers.ChannelDetailSerializer(channel, context={'request': request})
+        return Response(serializer.data)

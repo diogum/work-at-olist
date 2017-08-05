@@ -58,13 +58,13 @@ class CategoryDetailSerializerTestCase(TestCase):
         self.assertIn('subcategories', keys)
 
 
-class ChannelSerializerTestCase(TestCase):
+class ChannelListSerializerTestCase(TestCase):
     def test__channel_list(self):
         """Must be a list of items"""
         create_channel('Channel A')
         create_channel('Channel B')
         channels = Channel.objects.all()
-        serializer = serializers.ChannelSerializer(instance=channels, context={'request': None}, many=True)
+        serializer = serializers.ChannelListSerializer(instance=channels, context={'request': None}, many=True)
 
         self.assertIsInstance(serializer.data, list)
         self.assertEqual(len(serializer.data), 2)
@@ -72,14 +72,14 @@ class ChannelSerializerTestCase(TestCase):
     def test__empty_list(self):
         """Test empty channel list"""
         channels = Channel.objects.all()
-        serializer = serializers.ChannelSerializer(instance=channels, context={'request': None}, many=True)
+        serializer = serializers.ChannelListSerializer(instance=channels, context={'request': None}, many=True)
 
         self.assertEqual(serializer.data, [])
 
     def test__contains_expected_fields(self):
         """Test for expected fields"""
         channel = create_channel('Channel')
-        serializer = serializers.ChannelSerializer(instance=channel, context={'request': None})
+        serializer = serializers.ChannelListSerializer(instance=channel, context={'request': None})
         keys = serializer.data.keys()
 
         self.assertEqual(len(keys), 3)
