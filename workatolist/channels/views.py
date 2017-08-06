@@ -9,6 +9,8 @@ from .models import Channel, Category
 
 class CategoryViewSet(viewsets.ViewSet):
     """
+    API endpoint that allows categories to be viewed.
+
     list:
     Returns a simple hierarchical tree of all root categories.
 
@@ -33,6 +35,8 @@ class CategoryViewSet(viewsets.ViewSet):
 
 class ChannelViewSet(viewsets.ViewSet):
     """
+    API endpoint that allows channels to be viewed.
+
     list:
     Returns a simple list of channel.
 
