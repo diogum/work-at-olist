@@ -1,0 +1,14 @@
+language: python
+services:
+  - postgresql
+python:
+  - "3.5"
+install:
+  - pip install -r requirements-local.txt
+  - pip install coveralls
+script:
+  - cd workatolist && coverage run --source='.' manage.py test
+before_script:
+  - psql -c 'CREATE DATABASE olist;' -U postgres
+after_success:
+- coveralls
