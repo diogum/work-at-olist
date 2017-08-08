@@ -3,7 +3,7 @@ This is a implementation of a Django application that provides a read only API o
 
 The project uses *Python 3.5* and *PostgreSQL* as relational database. 
 
-Specifications used in this project are available [here](SPECS.md).
+Specifications used in this project are available [here](docs/SPECIFICATION.md).
 
 ## Installation
 ### Requirements
