@@ -1,6 +1,7 @@
 # Work at Olist
 [![Build Status](https://travis-ci.org/diogum/work-at-olist.svg?branch=master)](https://travis-ci.org/diogum/work-at-olist)
 [![Coverage Status](https://coveralls.io/repos/github/diogum/work-at-olist/badge.svg)](https://coveralls.io/github/diogum/work-at-olist)
+[![Code Health](https://landscape.io/github/diogum/work-at-olist/master/landscape.svg?style=flat)](https://landscape.io/github/diogum/work-at-olist/master)
 
 This is a implementation of a Django application that provides a read only API of channels (e.g. marketplaces) and categories.
 
